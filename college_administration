@@ -1,0 +1,137 @@
+from collections import defaultdict
+
+deptdict= defaultdict(list)
+
+class student:
+    def __init__(self,name,rnum,dept,marks):
+        self.name=name
+        self.rnum=rnum
+        self.dept=dept
+        self.marks=marks
+
+class department :
+    def __init__(self,stulist):
+        self.stulist=stulist
+    def insertt(self,newstudent):
+        self.stulist.append(newstudent)
+    def avg(self,subject):
+        sum=0
+        cnt=0
+        for i in self.stulist:
+            mdic=i.marks
+            sum=sum+mdic[subject]
+            cnt+=1
+        # print(sum,cnt)
+        print(sum/cnt) 
+    def topp(self,subj):
+        top=0
+        for i in self.stulist :
+            dicm=i.marks
+            if(dicm[subj]>top):
+                top=dicm[subj]
+        for i in self.stulist :
+            dicm=i.marks
+            if(dicm[subj]==top):
+               show(i,subj)
+    def rankl(self,sbb):
+        mlist= sorted(self.stulist, key=lambda x:x.marks[sbb], reverse=True)
+        for i in mlist :
+            print(i.name)
+
+def ranklist():
+    print("Enter department : ")
+    dept=input()
+    print("Enter subject : ")
+    sbb=input()
+    dppobj=deptdict[dept]
+    dppobj.rankl(sbb)
+
+
+def show(std,subj):
+     print("Roll no.",end="        ")    
+     print("Name",end="        ")
+     print("Dept",end="        ")
+     print(" Mark")
+     print(std.rnum,end="            ")
+     print(std.name,end="        ")
+     print(std.dept,end="              ")
+     print(std.marks[subj])
+
+def topper():
+    print("Enter the department : ")
+    dprt=input()
+    print("Enter the subject : ")
+    sbj=input()
+    dprtobj=deptdict[dprt]
+    dprtobj.topp(sbj)
+
+def average():
+    print("Enter the department : ")
+    dd=input()
+    print("Enter the subject : ")
+    sub=input()
+    ddobj=deptdict[dd]
+    # print(deptdict[dd])
+    # print(ddobj)
+    # print(type(ddobj))
+    # ddobj=ddobj[0]
+    # print(sub)
+    ddobj.avg(sub)
+    
+
+def newdptindict(dptslist,dptname):
+    deptdict[dptname]=dptslist[0]
+
+def newrecord():
+    global deptdict
+    print("Enter number of entries : ")
+    n=int(input())
+    for j in range(n):
+        print("Enter  roll no. : ")
+        rnum0=int(input())
+        print("Enter name : ")
+        name0=input()
+        print("Enter department : ")
+        dept0=input()
+        print("Enter marks (Maths physics chemistry computer) : ")
+        listmarks = list(map(int, input().split()))
+        marks0 = defaultdict(int)
+        marks0 = {"maths":listmarks[0], "physics":listmarks[1], "chemistry":listmarks[2], "computer":listmarks[3]}
+        newstu= student(name0,rnum0,dept0,marks0)
+        # print(newstu.dept)
+        # print(deptdict[newstu.dept])
+        if(deptdict[newstu.dept]==[]):
+            stulistt=[]
+            stulistt.append(newstu)
+            newdpt=department(stulistt)
+            dptlist=[]
+            dptlist.append(newdpt)
+            newdptindict(dptlist,newstu.dept)
+        else:
+            deptobj=deptdict[newstu.dept]
+            # deptobjr=deptobj[0]
+            # print(type(deptobjr))
+            deptobj.insertt(newstu)
+        
+
+
+
+while(True):
+    print("1. Enter new records ")
+    print("2. Get average score ")
+    print("3. Details of topper ")
+    print("4. Get rank list ")
+    print("5. Exit")
+    opt=int(input())
+    if (opt==1):
+        newrecord()
+    elif(opt==2):
+        average()
+    elif (opt==3):
+        topper()
+    elif(opt==4):
+        ranklist()
+    elif(opt==5):
+        break
+    else:
+        print("Invalid choice")
